@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,8 @@ namespace ZombieParty.Models
         [DisplayName("Point")]
         [Range(2, 5, ErrorMessage = "ValidationRange")]
         public int Point { get; set; }
+
+        public bool IsDisponible { get; set; } = true;
 
         [DisplayName("Zombies")]
         [ValidateNever]

@@ -99,40 +99,39 @@ namespace ZombieParty.Controllers
             return View(zombieType);
         }
 
-        // GET: ZombieType/Delete/5
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    ZombieType? zombieType =
-        //        await _baseDonnees.ZombieTypes.FindAsync(id);
-        //
-        //    if (zombieType == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //
-        //    return View(zombieType);
-        //}
 
-        // POST: ZombieType/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeletePost(int id)
-        //{
-        //    ZombieType? zombieType =
-        //        await _baseDonnees.ZombieTypes.FindAsync(id);
-        //
-        //    if (zombieType == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //
-        //    _baseDonnees.ZombieTypes.Remove(zombieType);
-        //    await _baseDonnees.SaveChangesAsync();
-        //
-        //    TempData[AppConstants.Success] =
-        //        $"ZombieType {zombieType.TypeName} has been removed";
-        //
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // GET: ZombieType/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            ZombieType? zombieType =
+                await _serviceZT.GetByIdAsync(id);
+
+            if (zombieType == null)
+            {
+                return NotFound();
+            }
+
+            return View(zombieType);
+        }
+
+
+        //POST: ZombieType/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            ZombieType? zombieType = await _serviceZT.GetByIdAsync(id);
+            if (zombieType == null)
+            {
+                return NotFound();
+            }
+
+
+            await _serviceZT.DeleteAsync(id);
+            TempData[AppConstants.Success] = $"ZombieType {zombieType.TypeName} has been removed";
+
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
