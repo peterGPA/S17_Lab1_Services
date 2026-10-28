@@ -10,10 +10,12 @@ namespace ZombieParty.Controllers
     public class ZombieTypeController : Controller
     {
         private IZombieTypeService _serviceZT { get; set; }
+        private IZombieService _serviceZ { get; set; }
 
-        public ZombieTypeController(IZombieTypeService serviceZT)
+        public ZombieTypeController(IZombieTypeService serviceZT, IZombieService serviceZ)
         {
             _serviceZT = serviceZT;
+            _serviceZ = serviceZ;
         }
 
         // GET: ZombieType
@@ -23,26 +25,26 @@ namespace ZombieParty.Controllers
         }
 
         // GET: ZombieType/Details/5
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var zombies = await _baseDonnees.Zombies
-        //        .Where(z => z.ZombieTypeId == id)
-        //        .ToListAsync();
-        //
-        //    ZombieTypeVM zombieTypeVM = new()
-        //    {
-        //        ZombieType = new(),
-        //        ZombiesList = zombies,
-        //        ZombiesCount = zombies.Count(),
-        //        PointsAverage = zombies.Average(p => p.Point)
-        //    };
-        //
-        //    zombieTypeVM.ZombieType =
-        //        await _baseDonnees.ZombieTypes
-        //            .FirstOrDefaultAsync(zt => zt.Id == id);
-        //
-        //    return View(zombieTypeVM);
-        //}
+        public async Task<IActionResult> Details(int id)
+        {
+            ZombieType? zombieType = await _serviceZT.GetByIdAsync(id);
+            if (zombieType == null)
+            {
+                return NotFound();
+            }
+
+            IReadOnlyList<Zombie> zombies = await _serviceZ.GetAllByZombieTypeAsync(id);
+
+            ZombieTypeVM zombieTypeVM = new()
+            {
+                ZombieType = zombieType,
+                ZombiesList = zombies,
+                ZombiesCount = zombies.Count,
+                PointsAverage = zombies.Count > 0 ? zombies.Average(p => p.Point) : 0
+            };
+
+            return View(zombieTypeVM);
+        }
 
         // GET: ZombieType/Create
         public IActionResult Create()

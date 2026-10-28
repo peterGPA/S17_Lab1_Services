@@ -18,6 +18,7 @@ namespace ZombieParty.Models
         [Range(2, 5, ErrorMessage = "ValidationRange")]
         public int Point { get; set; }
 
+        [DisplayName("Disponible")]
         public bool IsDisponible { get; set; } = true;
 
         [DisplayName("Zombies")]

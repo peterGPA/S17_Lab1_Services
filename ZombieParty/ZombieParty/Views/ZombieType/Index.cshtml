@@ -30,9 +30,14 @@
             {
                 <tr>
                     <td width="50%">
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" >
+                        @* Les ZombieTypes non disponibles sont affichés en gris avec la mention Indisponible *@
+                        <a class="btn @(item.IsDisponible ? "btn-info" : "btn-secondary")" asp-action="Details" asp-route-id="@item.Id">
                             @item.TypeName
                         </a>
+                        @if (!item.IsDisponible)
+                        {
+                            <span class="ms-2 text-secondary fst-italic">Indisponible</span>
+                        }
                     </td>
                     <td class="text-center" width="15%">@item.Point</td>
                     <td class="text-center">

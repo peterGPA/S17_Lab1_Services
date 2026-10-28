@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZombieParty.Models.Data;
-using ZombieParty.Services;
+using ZombieParty.Models;
 
-namespace ZombieParty.Models
+namespace ZombieParty.Services
 {
     public class ServiceBaseAsync<T> : IServiceBaseAsync<T> where T : class
     {
